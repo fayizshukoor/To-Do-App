@@ -1,9 +1,9 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import TodoForm from "./components/TodoForm";
+import TodoList from "./components/TodoList";
 
 
 function App() {
-  const [task, setTask] = useState("");
   const [tasks, setTasks] = useState(()=>{
       const savedTasks = localStorage.getItem('tasks');
       if(savedTasks){
@@ -20,19 +20,16 @@ function App() {
     localStorage.setItem('tasks',serializedTasks);
   },[tasks])
 
-  function handleAddTask() {
+  function handleAddTask(taskText) {
 
-    if (!task.trim()) {
-      return;
-    }
+   
     const taskObj = {
       id: Date.now(),
-      text: task.trim(),
+      text: taskText,
       completed: false
     }
 
     setTasks([...tasks, taskObj]);
-    setTask("");
 
   }
 
@@ -60,25 +57,20 @@ function App() {
   return (
     <>
       <h1>To-do App</h1>
-      <input type="text" value={task} onChange={(e) => setTask(e.target.value)} />
-      <button onClick={handleAddTask}>Add</button>
+      <TodoForm
+      onAddTask={handleAddTask}
+      />
       <h3>Tasks</h3>
 
       {
         tasks.length === 0 ? <p>No tasks yet..</p> :
 
 
-          <ul>
-
-            {
-
-              tasks.map((task) => <li key={task.id}>
-                <input type="checkbox" onChange={() => handleToggleTask(task.id)} checked={task.completed} />
-                <span style={{textDecoration : task.completed ? 'line-through':'none'}}>{task.text}</span>
-                <button onClick={()=> handleDeleteTask(task.id)}>Delete</button>
-              </li>)
-            }
-          </ul>
+         <TodoList
+         tasks={tasks}
+         onToggleTask={handleToggleTask}
+         onDeleteTask={handleDeleteTask}
+         />
       }
 
     </>
