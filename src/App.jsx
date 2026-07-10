@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
+import './App.css';
 
 
 function App() {
+
+  
+
   const [tasks, setTasks] = useState(()=>{
       const savedTasks = localStorage.getItem('tasks');
       if(savedTasks){
@@ -33,6 +37,44 @@ function App() {
 
   }
 
+
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [editText, setEditText] = useState("");
+
+  function handleEditTask(task){
+    
+   setEditingTaskId(task.id);
+   setEditText(task.text);
+  }
+
+  function handleCancelEdit(){
+    setEditingTaskId(null);
+    setEditText("");
+  }
+
+  function handleSaveEdit(){
+
+    const trimmedText = editText.trim();
+    if(editingTaskId === null || !trimmedText){
+      return;
+    }
+
+    const updatedTasks = tasks.map((task)=>{
+      if(task.id === editingTaskId){
+        return {
+          ...task,
+          text : trimmedText
+        }
+      }
+
+      return task;
+    })
+
+    setTasks(updatedTasks);
+    setEditingTaskId(null);
+    setEditText("");
+  }
+
   function handleToggleTask(id) {
     const updatedTasks = tasks.map((task)=>{
         if(task.id === id){
@@ -55,7 +97,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className="app">
       <h1>To-do App</h1>
       <TodoForm
       onAddTask={handleAddTask}
@@ -70,10 +112,16 @@ function App() {
          tasks={tasks}
          onToggleTask={handleToggleTask}
          onDeleteTask={handleDeleteTask}
+         onEditTask={handleEditTask}
+         editingTaskId={editingTaskId}
+         editText={editText}
+         setEditText={setEditText}
+         onCancelEdit={handleCancelEdit}
+         onSaveEdit={handleSaveEdit}
          />
       }
 
-    </>
+    </div>
   )
 }
 

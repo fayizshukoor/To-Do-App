@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./TodoForm.css";
 
 function TodoForm({onAddTask}){
 
@@ -15,10 +16,10 @@ function TodoForm({onAddTask}){
       }
     
     return (
-        <>
+        <div className="todo-form">
         <input type="text" value={task} onChange={(e) => setTask(e.target.value)} />
         <button onClick={handleSubmit}>Add</button>
-        </>
+        </div>
     )
 }
 

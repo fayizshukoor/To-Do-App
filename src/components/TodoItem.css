@@ -1,0 +1,16 @@
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .todo-item span,
+  .todo-item input[type="text"] {
+    flex: 1;
+  }
+  
+  .todo-item button {
+    padding: 6px 12px;
+  }
