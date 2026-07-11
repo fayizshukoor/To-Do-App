@@ -22,10 +22,20 @@ function App() {
   useEffect(()=>{
     const serializedTasks = JSON.stringify(tasks);
     localStorage.setItem('tasks',serializedTasks);
+    
   },[tasks])
+
+  const [error, setError] = useState("");
+
 
   function handleAddTask(taskText) {
 
+    const duplicateExists = tasks.some((task)=> task.text.toLowerCase() === taskText.toLowerCase());
+
+    if(duplicateExists){
+      setError("Task already exists");
+      return;
+    }
    
     const taskObj = {
       id: Date.now(),
@@ -35,6 +45,11 @@ function App() {
 
     setTasks([...tasks, taskObj]);
 
+  }
+
+
+  function handleClearError(){
+    setError("");
   }
 
 
@@ -101,6 +116,8 @@ function App() {
       <h1>To-do App</h1>
       <TodoForm
       onAddTask={handleAddTask}
+      error={error}
+      onClearError={handleClearError}
       />
       <h3>Tasks</h3>
 

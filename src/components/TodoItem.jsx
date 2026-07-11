@@ -16,7 +16,7 @@ function TodoItem({task, onToggleTask, onDeleteTask, onEditTask, editingTaskId, 
                 : (
                     <>
                     <span style={{textDecoration : task.completed ? 'line-through':'none'}}>{task.text}</span>
-                    <button onClick={()=>onEditTask(task)}>Edit</button>
+                    <button onClick={()=>onEditTask(task)} disabled={task.completed}>Edit</button> 
                     <button onClick={()=> onDeleteTask(task.id)}>Delete</button>                    
                     </>
                     
