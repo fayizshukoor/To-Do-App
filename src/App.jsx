@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 import './App.css';
+import Toast from "./components/Toast";
 
 
 function App() {
@@ -27,6 +28,8 @@ function App() {
 
   const [error, setError] = useState("");
 
+  const [toastMessage, setToastMessage] = useState('');
+
 
   function handleAddTask(taskText) {
 
@@ -44,6 +47,7 @@ function App() {
     }
 
     setTasks([...tasks, taskObj]);
+    setToastMessage('Task Added');
 
   }
 
@@ -88,6 +92,8 @@ function App() {
     setTasks(updatedTasks);
     setEditingTaskId(null);
     setEditText("");
+    setToastMessage('Task Updated');
+
   }
 
   function handleToggleTask(id) {
@@ -109,10 +115,24 @@ function App() {
     const remainingTasks = tasks.filter((task)=> task.id !== id);
 
     setTasks(remainingTasks);
+    setToastMessage('Task Deleted');
+  }
+
+
+  function handleClearToast(){
+      setToastMessage("");
   }
 
   return (
     <div className="app">
+
+      {toastMessage && (
+        <Toast
+          message={toastMessage}
+          onClearToast={handleClearToast}
+        />
+      )}
+
       <h1>To-do App</h1>
       <TodoForm
       onAddTask={handleAddTask}
