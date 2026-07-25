@@ -1,7 +1,7 @@
     import { useEffect } from "react";
     import "./Toast.css";
 
-    function Toast({message, onClearToast}){
+    function Toast({type, message, onClearToast}){
 
         useEffect(()=>{
             const timer = setTimeout(()=>{
@@ -12,7 +12,7 @@
                 clearTimeout(timer);
             }
         },[message])
-        return <div className="toast">{message}</div>
+        return <div className={`toast ${type}`}> {message}</div>
     }
 
     export default Toast;

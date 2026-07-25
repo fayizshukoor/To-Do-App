@@ -1,11 +1,13 @@
 import { useState } from "react";
 import "./TodoForm.css";
 
-function TodoForm({onAddTask, error, onClearError}){
+function TodoForm({onAddTask}){
 
       const [task, setTask] = useState("");
 
-      function handleSubmit(){
+      function handleSubmit(event){
+
+        event.preventDefault();
 
         const trimmedTask = task.trim()
         if (!trimmedTask) {
@@ -17,19 +19,16 @@ function TodoForm({onAddTask, error, onClearError}){
 
       function handleChange(e){
         setTask(e.target.value);
-        onClearError()
         
       }
     
     return (
         <div>
-          <div className="todo-form">
-            <input type="text" value={task} onChange={handleChange} />
-            <button onClick={handleSubmit}>Add</button>
-          </div>
-          {
-            error && <p className="error">{error}</p>
-          }
+          <form className="todo-form" onSubmit={handleSubmit}>
+            <input type="text" maxLength={50} value={task} onChange={handleChange} />
+            <button type="submit" disabled={task.trim().length===0}>Add</button>
+          </form>
+          <p>{task.length}/50</p>
         </div>
         
     )
