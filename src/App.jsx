@@ -1,30 +1,16 @@
-  import { useState, useEffect } from "react";
+  import { useState } from "react";
   import TodoForm from "./components/TodoForm";
   import TodoList from "./components/TodoList";
   import './App.css';
   import Toast from "./components/Toast";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 
   function App() {
 
     
 
-    const [tasks, setTasks] = useState(()=>{
-        const savedTasks = localStorage.getItem('tasks');
-        if(savedTasks){
-          const parsedTasks = JSON.parse(savedTasks);
-          return parsedTasks;
-        }
-
-        return [];
-      
-    });
-
-    useEffect(()=>{
-      const serializedTasks = JSON.stringify(tasks);
-      localStorage.setItem('tasks',serializedTasks);
-      
-    },[tasks])
+    const [tasks, setTasks] = useLocalStorage('tasks',[]);
 
 
     const [toast, setToastMessage] = useState({
