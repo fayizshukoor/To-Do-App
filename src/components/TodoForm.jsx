@@ -28,7 +28,7 @@ function TodoForm({onAddTask}){
             <input type="text" maxLength={50} value={task} onChange={handleChange} />
             <button type="submit" disabled={task.trim().length===0}>Add</button>
           </form>
-          <p>{task.length}/50</p>
+          <p>{task.length} / 50 characters</p>
         </div>
         
     )
